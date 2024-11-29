@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Net Calorie Tracker{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/adddata.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Special Button Section -->
+    {% if user.is_authenticated %}
+
+        {% comment %} <!-- Success message box (Initially hidden) -->
+    <div id="success-message" class="success-box" style="display:none;">
+        Food data added successfully!
+    </div> {% endcomment %}
+
+    <!-- Navbar -->
+    <nav class="navbar-below">
+        <div class="navbar-below-left">
+            <h2 id="username">James</h2>
+        </div>
+        <div class="navbar-below-right">
+            <button class="btn" id="addDataBtn">Add Data</button>
+        </div>
+    </nav>
+
+    <!-- Add Data Modal -->
+    <div class="modal" id="addDataModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Data</h3>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" id="foodTab">Add Food</button>
+                    <button class="tab-btn active" id="activityTab">Add Activity</button>
+                </div>
+                <!-- Forms -->
+                <div class="form-container">
+                <!-- Add Food Form -->
+                    <form method="POST" id="addFoodForm" class="form active">
+                    {% csrf_token %}
+                        <label for="foodDate">Select Date</label>
+                        <input type="date" id="foodDate" required>
+
+                        <label for="foodName">Search Food Name</label>
+                        <div class="search-container">
+                            <input type="text" id="foodSearch" placeholder="Search Food Name" required>
+                            <ul id="foodList" class="food-list"></ul>  <!-- List for showing search results -->
+                        </div>
+
+                        <label for="foodGroup">Food Group</label>
+                        <input type="text" id="foodGroup" readonly> <!-- Auto-filled after food selection -->
+
+                        <label for="mealType">Select Meal Type</label>
+                        <input type="text" id="mealType" placeholder="Breakfast/Lunch/Dinner" required>
+
+                        <label for="serving">Serving</label>
+                        <input type="number" id="serving" placeholder="Serving Size" required>
+                        
+                        <input type="hidden" id="selectedFoodId"> <!-- Hidden input to store the food_id -->
+                    </form>
+
+
+                    <form method="POST" id="addActivityForm" class="form">
+                        <label for="activityDate">Select Date</label>
+                        <input type="date" id="activityDate" required>
+
+                        <label for="activityName">Activity Name</label>
+                        <div class="search-container">
+                            <input type="text" id="activitySearch" placeholder="Search Activity Name" required>
+                            <ul id="activityList" class="activity-list"></ul>  <!-- List for showing search results -->
+                        </div>
+
+                        <label for="specificMotion">Specific Motion</label>
+                        <input type="text" id="specificMotion" readonly> <!-- Auto-filled after food selection -->
+
+                        <!-- Search results dropdown -->
+                        {% comment %} <ul id="searchResults" style="display: none;"></ul> {% endcomment %}
+
+                        <label for="activityDescription">Description</label>
+                        <textarea id="activityDescription" placeholder="Activity Description" required></textarea>
+
+                        <label for="metValue">MET Value</label>
+                        <input type="number" id="metValue" placeholder="MET Value" required readonly>
+
+                        <label for="duration">Duration (minutes)</label>
+                        <input type="number" id="duration" placeholder="Duration" required>
+                        <input type="hidden" id="selectedActivityId"> <!-- Hidden input to store the activity_id -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn btn-save" id="saveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    {% endif %}
+
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'js/adddata.js' %}"></script>
+    {% comment %} <script>
+    // Check if there's a success message in the template context
+    window.onload = function() {
+        {% if success_message %}
+            var successMessageBox = document.getElementById('success-message');
+            successMessageBox.style.display = 'block';
+            
+            // Hide the success message after 3 seconds
+            setTimeout(function() {
+                successMessageBox.style.display = 'none';
+            }, 3000);
+        {% endif %}
+    };
+</script> {% endcomment %}
+{% endblock %}
+

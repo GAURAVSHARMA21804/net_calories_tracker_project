@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Net Calorie Tracker{% endblock %}
+
+{% block content %}
+<!-- Special Button Section -->
+    {% if not user.is_authenticated %}
+     <!-- Main Content Section -->
+    <div class="main-content">
+        <div class="welcome-section">
+            <h1>Welcome to the Calorie Tracker Web-app admin dashboard!</h1>
+            <p>This is your calorie tracker dashboard.</p>
+            <a href="#" class="special-btn">
+                {% comment %} <img src="{% static 'images/calories-icon.png' %}" alt="Calories Icon"> {% endcomment %}
+                Check Your Net Calories →
+            </a>
+        </div>
+        <div class="image-section">
+            <img src="{% static 'images/calories_tracker_app.png' %}" alt="Dashboard Illustration">
+        </div>
+    </div>
+
+    {% endif %}
+{% endblock %}

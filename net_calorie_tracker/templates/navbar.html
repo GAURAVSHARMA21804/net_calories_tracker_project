@@ -1,0 +1,20 @@
+{% load static %}
+<nav>
+     <div class="logo">
+        <!-- Link the logo to the dashboard page -->
+        <a href="{% url 'tracker:home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Company Logo">
+        </a>
+    </div>
+    <div class="nav-buttons">
+        {% if user.is_authenticated %}
+            <a href="#" class="btn">Dashboard</a>
+            <a href="{% url 'users_auth:logout' %}" class="btn">Logout</a>
+        {% else %}
+            
+            <a href="{% url 'users_auth:signup' %}" class="btn">Signup</a>
+            <a href="{% url 'users_auth:login' %}" class="btn">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
