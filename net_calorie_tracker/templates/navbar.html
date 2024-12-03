@@ -2,13 +2,28 @@
 <nav>
      <div class="logo">
         <!-- Link the logo to the dashboard page -->
-        <a href="{% url 'tracker:home' %}">
+        {% if user.is_authenticated and user.is_staff  %}
+        
+        <a href="{% url 'tracker:admin_panel_dashboard' %}">
             <img src="{% static 'images/logo.png' %}" alt="Company Logo">
         </a>
+        {% elif user.is_authenticated and not user.is_staff %}
+        <a href="{% url 'tracker:users_dashboard' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Company Logo">
+        </a>
+        {% else %}
+         <a href="{% url 'tracker:home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Company Logo">
+        </a>
+        {% endif %}
     </div>
     <div class="nav-buttons">
-        {% if user.is_authenticated %}
-            <a href="#" class="btn">Dashboard</a>
+        {% if user.is_authenticated and user.is_staff %}
+
+          <a href="{% url 'tracker:admin_panel_dashboard' %}" class="btn">Dashboard</a>
+            <a href="{% url 'users_auth:logout' %}" class="btn">Logout</a>
+        {% elif user.is_authenticated and not user.is_staff %}
+            <a href="{% url 'tracker:users_dashboard' %}" class="btn">Dashboard</a>
             <a href="{% url 'users_auth:logout' %}" class="btn">Logout</a>
         {% else %}
             

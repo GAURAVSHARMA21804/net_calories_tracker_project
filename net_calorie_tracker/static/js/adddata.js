@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const duration = document.getElementById('duration');
     const activityDescriptionInput = document.getElementById('activityDescription');
     
+
+    
     // Function to get CSRF token (for AJAX requests)
     function getCookie(name) {
         let cookieValue = null;
@@ -274,4 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
             successBox.style.display = 'none';
         }, 3000);
     }
+   
+        
 });
+

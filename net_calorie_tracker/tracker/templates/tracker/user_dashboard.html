@@ -4,26 +4,58 @@
 {% block title %}Net Calorie Tracker{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/adddata.css' %}">
+<link rel="stylesheet" href="{% static 'css/dailylog.css' %}">
+
 {% endblock %}
 
 {% block content %}
 <!-- Special Button Section -->
     {% if user.is_authenticated %}
 
-        {% comment %} <!-- Success message box (Initially hidden) -->
-    <div id="success-message" class="success-box" style="display:none;">
-        Food data added successfully!
-    </div> {% endcomment %}
-
+      
     <!-- Navbar -->
     <nav class="navbar-below">
         <div class="navbar-below-left">
-            <h2 id="username">James</h2>
+            <h2 id="username">{{ user.name }}</h2>
         </div>
         <div class="navbar-below-right">
+            
             <button class="btn" id="addDataBtn">Add Data</button>
         </div>
     </nav>
+        <!-- Logs Section -->
+        <div class="select calender">
+          
+        <input type="date" id="calendar" />
+        <button id="refreshButton">Refresh</button>
+        
+        
+
+        
+        </div>
+
+        <!-- Logs Section -->
+<div class="logs-container">    
+    <!-- Food Logs -->
+    <div class="logs-section-summery food-logs">
+        <h3>Daily summery Logs all data</h3>
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>BMR</th>
+                    <th>Calories In</th>
+                    <th>Calories Out</th>
+                    <th>Net Calories</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dailySummariesBody"></tbody>
+        </table>
+    </div>
+
+ 
+
 
     <!-- Add Data Modal -->
     <div class="modal" id="addDataModal">
@@ -98,25 +130,19 @@
             </div>
         </div>
     </div>
+
+   
+
+
+
+    
     
     {% endif %}
 
 {% endblock %}
 {% block scripts %}
-    <script src="{% static 'js/adddata.js' %}"></script>
-    {% comment %} <script>
-    // Check if there's a success message in the template context
-    window.onload = function() {
-        {% if success_message %}
-            var successMessageBox = document.getElementById('success-message');
-            successMessageBox.style.display = 'block';
-            
-            // Hide the success message after 3 seconds
-            setTimeout(function() {
-                successMessageBox.style.display = 'none';
-            }, 3000);
-        {% endif %}
-    };
-</script> {% endcomment %}
+<script src="{% static 'js/adddata.js' %}"></script>
+<script src="{% static 'js/daily_log.js' %}"></script>
+    
 {% endblock %}
 

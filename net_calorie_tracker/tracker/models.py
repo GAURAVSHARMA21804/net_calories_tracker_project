@@ -73,18 +73,31 @@ class DailyActivityLog(models.Model):
 # Daily summary for storing calculated metrics
 class DailySummary(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    date = models.DateField(default=date.today, unique=True)
+    date = models.DateField(default=date.today)
     bmr = models.FloatField()  # Copied from UserProfile
     calories_in = models.FloatField()  # Sum of food calories
     calories_out = models.FloatField()  # Sum of activity calories burned
     net_calories = models.FloatField(editable=False, null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        # Safeguard against NoneType values
+        self.calories_in = self.calories_in or 0
+        self.calories_out = self.calories_out or 0
+        self.bmr = self.bmr or 0
+
         # Calculate net calories
-        self.net_calories = self.calories_in - self.calories_out
+        self.net_calories = self.calories_in - (self.calories_out + self.bmr)
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Summary for {self.date}"
+        return f"{self.user.username}'s summary on {self.date}"
+
+class WeightHistory(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="weight_history")
+    date = models.DateField(auto_now_add=True)
+    weight = models.FloatField(help_text="Weight in kg",null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.weight} kg on {self.date}"
     
 

@@ -6,12 +6,12 @@ class Command(BaseCommand):
     help = 'Imports data from an Excel file (food or activity)'
 
     def add_arguments(self, parser):
-        # Add arguments for Excel file and data type (food or activity)
+        # Adding arguments for Excel file and data type (food or activity)
         parser.add_argument('excel_file', type=str)
         parser.add_argument('--type', type=str, choices=['food', 'activity'], help="Type of data to import (food/activity)")
 
     def handle(self, *args, **kwargs):
-        # Get the file path and type of data to import
+        # Geting the file path and type of data to import
         excel_file = kwargs['excel_file']
         data_type = kwargs['type']
 
@@ -24,14 +24,14 @@ class Command(BaseCommand):
 
     def import_food_data(self, excel_file):
         try:
-            # Load the Excel file containing food data
+            # Loading the Excel file containing food data
             df = pd.read_excel(excel_file)
             self.stdout.write(f"Number of rows in Excel: {len(df)}")
 
             # Loop through the rows in the DataFrame and save to database
             for index, row in df.iterrows():
                 try:
-                    # Extract data from each row
+                    # Extractacting data from each row
                     food_name = row.get('name', None)
                     food_group = row.get('Food Group', '')
                     calories = row.get('Calories', 0)
@@ -67,14 +67,14 @@ class Command(BaseCommand):
 
     def import_activity_data(self, excel_file):
         try:
-            # Load the Excel file containing activity data
+            # Loading the Excel file containing activity data
             df = pd.read_excel(excel_file)
             self.stdout.write(f"Number of rows in Excel: {len(df)}")
 
             # Loop through the rows in the DataFrame and save to database
             for index, row in df.iterrows():
                 try:
-                    # Extract data from each row
+                    # Extractacting data from each row
                     activity_name = row.get('ACTIVITY', None)
                     specific_motion = row.get('SPECIFIC MOTION', '')
                     mets = row.get('METs', 0)
