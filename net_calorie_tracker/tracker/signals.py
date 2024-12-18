@@ -16,7 +16,7 @@ def update_daily_summary(sender, instance, **kwargs):
     Updates the daily summary table whenever a food or activity log is added or deleted.
     Ensures BMR is calculated only once per day and weight is updated only at the end of the day.
     """
-    # Lazy load models
+   
     DailySummary = apps.get_model('tracker', 'DailySummary')
 
     user = instance.user
